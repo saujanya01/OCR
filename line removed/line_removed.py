@@ -1,7 +1,7 @@
 import cv2
 import numpy as np
 import pytesseract
-img=cv2.imread('/home/saujanya/Desktop/table.png')
+img=cv2.imread('/home/saujanya/OCR/practice/final/line removed/table.png')
 cv2.imshow("Original",img)
 gray=cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
 cv2.imshow("grayscale",gray)
@@ -40,6 +40,9 @@ not_i=np.bitwise_not(mask_img)
 final=np.bitwise_and(not_i,thresh_b_fil)
 
 final1=cv2.bilateralFilter(final,15,50,50)
+
+#Writing image
+cv2.imwrite("line_removed.png",np.bitwise_not(final1))
 
 
 #cv2.imshow("Mask",mask_img)
