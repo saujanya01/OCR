@@ -1,6 +1,7 @@
 import cv2
 import numpy as np
 import pytesseract
+
 img=cv2.imread('/home/saujanya/OCR/practice/final/line removed/table.png')
 cv2.imshow("Original",img)
 gray=cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)

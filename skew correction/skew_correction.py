@@ -18,8 +18,14 @@ else:
 (h,w)=img.shape[:2]
 center=(w//2 , h//2)
 M=cv2.getRotationMatrix2D(center,angle,1.0)
-rotated=cv2.warpAffine(thresh,M,(w,h),flags=cv2.INTER_CUBIC,borderMode=cv2.BORDER_REPLICATE)
-cv2.imshow('Rotated',rotated)
+rotated=cv2.warpAffine(img,M,(w,h),flags=cv2.INTER_CUBIC,borderMode=cv2.BORDER_REPLICATE)
+(t,final)=cv2.threshold(rotated,200,255,cv2.THRESH_BINARY)
+cv2.imwrite("Straight.png",final)
+
+text=pytesseract.image_to_string(final)
+print(text)
+
+cv2.imshow('Rotated',final)
 cv2.imshow('Original',img)
 
 cv2.waitKey(0)
