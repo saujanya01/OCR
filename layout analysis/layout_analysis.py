@@ -2,9 +2,9 @@ import numpy as np
 import cv2
 
 # loading images
-image1 = cv2.imread("/home/saujanya/OCR/practice/final/skew correction/rotated_image.png")
-image2 = cv2.imread("/home/saujanya/OCR/practice/final/line removed/table.png")
-image3 = cv2.imread("/home/saujanya/OCR/practice/final/line removed/table.png")
+image1 = cv2.imread("/home/saujanya/OCR/practice/final/text1.png")
+image2 = cv2.imread("/home/saujanya/OCR/practice/final/text1.png")
+image3 = cv2.imread("/home/saujanya/OCR/practice/final/text1.png")
 
 # hardcoded assigning of output images for the 3 input images
 output1_letter = image1.copy()
@@ -65,13 +65,13 @@ def process_word(thresh,output):
 	#temp_img = cv2.erode(thresh,kernel,iterations=2)	
 	word_img = cv2.dilate(temp_img,kernel2,iterations=1)
 	
-	(_,contours, _) = cv2.findContours(word_img.copy(), cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_SIMPLE)
-	
+	(_,contours, hierarchy) = cv2.findContours(word_img.copy(), cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_SIMPLE)
+	print(hierarchy)
 	for cnt in contours:
 		x,y,w,h = cv2.boundingRect(cnt)
-		cv2.rectangle(output,(x-1,y-5),(x+w,y+h),(0,255,0),1)
+		cv2.rectangle(output,(x-1,y-5),(x+w,y+h),(0,0,0),1)
 
-	return output	
+	return output
 
 #processing line by line boxing
 def process_line(thresh,output):	
