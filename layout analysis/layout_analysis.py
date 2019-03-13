@@ -2,9 +2,9 @@ import numpy as np
 import cv2
 
 # loading images
-image1 = cv2.imread("/home/saujanya/OCR/practice/final/text1.png")
-image2 = cv2.imread("/home/saujanya/OCR/practice/final/text1.png")
-image3 = cv2.imread("/home/saujanya/OCR/practice/final/text1.png")
+image1 = cv2.imread("/home/saujanya/OCR/practice/final/page1.png")
+image2 = cv2.imread("/home/saujanya/OCR/practice/final/page1.png")
+image3 = cv2.imread("/home/saujanya/OCR/practice/final/page1.png")
 
 # hardcoded assigning of output images for the 3 input images
 output1_letter = image1.copy()
@@ -124,10 +124,12 @@ def process_margin(thresh,output):
 output1_letter = process_letter(th1,output1_letter)
 output1_word = process_word(th1,output1_word)
 output1_line = process_line(th1,output1_line)
+output_para = process_par(th1,output1_par)
 # special case for the 5th output because margin with paragraph is just the 4th output with margin
 cv2.imshow("Final",output1_letter)
 cv2.imshow("Final1",output1_word)
 cv2.imshow("Final2",output1_line)
+cv2.imshow("Final 3",output1_par)
 cv2.imwrite("output/letter/output1_letter.jpg", output1_letter)	
 cv2.imwrite("output/word/output1_word.jpg", output1_word)
 cv2.imwrite("output/line/output1_line.jpg", output1_line)
