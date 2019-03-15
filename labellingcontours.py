@@ -4,7 +4,7 @@ import pytesseract
 
 THRESHOLD = 200
 
-im=cv2.imread("/home/saujanya/OCR/practice/final/page1.png")
+im=cv2.imread("/home/saujanya/OCR/practice/final/page.png")
 imgray = cv2.cvtColor(im, cv2.COLOR_BGR2GRAY)
 cv2.imshow('imgray', imgray)
 img=im.copy()
@@ -34,16 +34,20 @@ par_img = cv2.dilate(thresh_inv,kernel,iterations=40)
 cv2.drawContours(im.copy(), contours, -1, (1, 70, 255), 2)
 contours=contours[::-1]
 i=0
+st=""
 for cnt in contours:
     x,y,w,h=cv2.boundingRect(cnt)
     cv2.rectangle(img,(x-1,y-5),(x+w,y+h),(0,255,0),1)
     cv2.putText(img, str(i),(x-15,y+12),cv2.FONT_HERSHEY_SCRIPT_SIMPLEX,0.3,(0,0,0),1,cv2.LINE_AA)
     i=i+1
-    
-extract=word_img[y:y+h , x:x+w]
-cv2.imshow("Extracted image",extract)
-text=pytesseract.image_to_string(extract)
-print(text)
+    extract=im[y:y+h , x:x+w]
+    text=pytesseract.image_to_string(extract)
+    st=st+text+"\n"
+
+f=open('/home/saujanya/Desktop/emma.txt','w')
+f.write(st)
+f.close()
+print(st)
 cv2.imshow("Contours", img)
 
 cv2.waitKey(0)

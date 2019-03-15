@@ -1,9 +1,8 @@
-import cv2
-import pytesseract
-img=cv2.imread("/home/saujanya/Desktop/sss.png")
-text=pytesseract.image_to_string(img)
-print(text)
-cv2.namedWindow('Original',cv2.WINDOW_NORMAL)
-cv2.imshow("Original",img)
-cv2.waitKey(0)
-cv2.destroyAllWindows()
+from wand.image import Image as wi
+pdf = wi(filename='/home/saujanya/OCR/practice/final/ocr_test_pdf.pdf',resolution=300)
+pdfImage=pdf.convert('jpeg')
+n=0
+for img in pdfImage.sequence:
+    page=wi(image=img)
+    page.save(filename=str(n)+".jpg")
+    n=n+1
