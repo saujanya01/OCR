@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 import pytesseract
 
-img=cv2.imread('/home/saujanya/OCR/practice/final/text1.png')
+img=cv2.imread('/home/saujanya/Desktop/one.png')
 cv2.imshow("Original",img)
 gray=cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
 cv2.imshow("grayscale",gray)
