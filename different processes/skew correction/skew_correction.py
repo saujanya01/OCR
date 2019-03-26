@@ -2,10 +2,9 @@ import cv2
 import numpy as np
 import pytesseract
 
-img=cv2.imread('/home/saujanya/OCR/practice/final/skew correction/rotated_image.png')
+img=cv2.imread('/home/saujanya/OCR/practice/final/different processes/0.jpg')
 gray=cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
-gray=np.bitwise_not(gray)
-(T,thresh)=cv2.threshold(gray,200,255,cv2.THRESH_BINARY)
+(T,thresh)=cv2.threshold(gray,200,255,cv2.THRESH_BINARY_INV)
 cv2.imshow('After thresholding',thresh)
 
 cord=np.column_stack(np.where(thresh>0))

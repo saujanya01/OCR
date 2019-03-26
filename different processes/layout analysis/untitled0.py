@@ -1,7 +1,7 @@
 import cv2
 import numpy as np
 
-img = cv2.imread("/home/saujanya/OCR/practice/final/text1.png")
+img = cv2.imread("/home/saujanya/OCR/practice/final/different processes/0.jpg")
 cv2.imshow("Original",img)
 
 img_c=img.copy()

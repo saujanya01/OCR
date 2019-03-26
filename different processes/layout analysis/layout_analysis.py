@@ -2,9 +2,30 @@ import numpy as np
 import cv2
 
 # loading images
-image1 = cv2.imread("/home/saujanya/OCR/practice/final/page1.png")
-image2 = cv2.imread("/home/saujanya/OCR/practice/final/page1.png")
-image3 = cv2.imread("/home/saujanya/OCR/practice/final/page1.png")
+image1 = cv2.imread("/home/saujanya/OCR/practice/final/different processes/0.jpg")
+image2 = cv2.imread("/home/saujanya/OCR/practice/final/different processes/0.jpg")
+image3 = cv2.imread("/home/saujanya/OCR/practice/final/different processes/0.jpg")
+
+(h,w)=image1.shape[:2]
+width=700
+r=h/w
+dim=(width,int(width*r))
+resized=cv2.resize(image1,dim,interpolation=cv2.INTER_AREA)
+image1=resized
+
+(h,w)=image2.shape[:2]
+width=700
+r=h/w
+dim=(width,int(width*r))
+resized=cv2.resize(image2,dim,interpolation=cv2.INTER_AREA)
+image2=resized
+
+(h,w)=image3.shape[:2]
+width=700
+r=h/w
+dim=(width,int(width*r))
+resized=cv2.resize(image3,dim,interpolation=cv2.INTER_AREA)
+image3=resized
 
 # hardcoded assigning of output images for the 3 input images
 output1_letter = image1.copy()
