@@ -34,6 +34,9 @@ exit_button.pack()
 w = Label(root, text="\nSelect the file path\n\n")
 w.pack()
 
+# Button(root, text="Print current saved path", command = check_path).pack()
+
+
 root.mainloop()
 path = y
 print(path)
@@ -64,6 +67,7 @@ for i in range(n):
         dim=(width,int(width*r))
         resized=cv2.resize(img,dim,interpolation=cv2.INTER_AREA)
         img=resized
+    #cv2.imwrite(img,"/home/saujanya/OCR/practice/final/resizing/resize"+str(i)+".jpg")
     gray=cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
     original = gray
     #Skew Correction
@@ -85,12 +89,34 @@ for i in range(n):
     (t,final)=cv2.threshold(rotated,200,255,cv2.THRESH_BINARY)
     #cv2.imshow('rotated',final)
     img = final
+    #cv2.imwrite(img,"/home/saujanya/OCR/practice/final/skew correction/skew_corr"+str(i)+".jpg")
+    #(t,final)=cv2.threshold(rotated,200,255,cv2.THRESH_BINARY)
     
-    #layout analysis and line removal with noise removal
+    #Noise Removal
+    
+    #gray_r=cv2.cvtColor(rotated,cv2.COLOR_BGR2GRAY)
+    
+    #final image after noise removal is img_nr
+    
+    #layout analysis and line removal
     THRESHOLD = 200
     #cv2.imshow("Original",img)
     b_fil=cv2.bilateralFilter(gray,7,50,50)
+    #g1_blur=cv2.GaussianBlur(gray,(7,7),0)
+    #cv2.imshow("Bilateral Filter",b_fil)
+    #cv2.imshow("G1 Blur",g1_blur)
+    #thresh_gray=cv2.adaptiveThreshold(gray,255,cv2.ADAPTIVE_THRESH_MEAN_C,cv2.THRESH_BINARY_INV,11,4)
+    #thresh_gray1=cv2.adaptiveThreshold(g1_blur,255,cv2.ADAPTIVE_THRESH_MEAN_C,cv2.THRESH_BINARY_INV,11,4)
     thresh_b_fil=cv2.adaptiveThreshold(b_fil,255,cv2.ADAPTIVE_THRESH_MEAN_C,cv2.THRESH_BINARY_INV,11,4)
+    #cv2.imshow("Gray Thtresh",thresh_gray)
+    #cv2.imshow("Gray Thtresh g1_blur",thresh_gray1)
+    #cv2.imshow("Bilateral Filter Thresholded",thresh_b_fil)
+    '''
+    kernel=np.zeros((3,3),np.uint8)
+    open_img=cv2.morphologyEx(thresh_b_fil,cv2.MORPH_CLOSE,kernel)
+    cv2.imshow("Morph open",open_img)
+    '''
+    cv2.imwrite("/home/saujanya/OCR/practice/final/with_line.jpg",np.bitwise_not(thresh_b_fil))
     #Part of line removal
     horizontal_img=thresh_b_fil
     vertical_img=thresh_b_fil
@@ -115,9 +141,6 @@ for i in range(n):
     cv2.imshow("Horizontal image",horizontal_img)
     cv2.imshow("Mask image",mask_img)
     '''
-    #cv2.imshow("Gray Thtresh",thresh_gray)
-    #cv2.imshow("Gray Thtresh g1_blur",thresh_gray1)
-    #cv2.imshow("Bilateral Filter Thresholded",thresh_b_fil)
     not_i=np.bitwise_not(mask_img)
     '''
     cv2.imshow("not_i",not_i)
@@ -132,18 +155,31 @@ for i in range(n):
     #cv2.imshow("line_removed.png",np.bitwise_not(final1))
 
     final1 = np.bitwise_or(gray,np.bitwise_not(final1))
+    #cv2.imshow("Mask",mask_img)
+    #cv2.imshow("Hor",horizontal_img)
+    #cv2.imshow("Ver",vertical_img)
+    #cv2.imshow("Final",np.bitwise_not(final))
+
     (T,thresh)=cv2.threshold(final1,200,255,cv2.THRESH_BINARY)
+    '''kernel_fin=cv2.getStructuringElement(cv2.MORPH_RECT,(2,2))
+    thresh=cv2.erode(thresh,kernel_fin,1)
+    kernel_fin1=cv2.getStructuringElement(cv2.MORPH_RECT,(2,2))
+    thresh=cv2.dilate(thresh,kernel_fin1,1)'''
+
     #cv2.imshow("Final1",thresh)
     img = thresh
     img=img.copy()
+    #blur=cv2.GaussianBlur(imgray,(5,5),0)
     #cv2.imshow('blur', blur)
 
+    #imgray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     #cv2.imshow('imgray', imgray)
     ret, thresh = cv2.threshold(img, THRESHOLD, 255, cv2.THRESH_BINARY)
     #cv2.imshow('thresh', thresh)
     thresh_inv=cv2.bitwise_not(thresh)
     #cv2.imshow('thresh_inv', thresh_inv)
-    
+    cv2.imwrite("/home/saujanya/OCR/practice/final/line_removal.jpg",thresh)
+
     #for line
     kernel = np.ones((1,3), np.uint8)
     kernel2 = np.ones((1,4), np.uint8)
@@ -170,6 +206,7 @@ for i in range(n):
             x,y,w,h=cv2.boundingRect(cnt)
             cv2.rectangle(original,(x-1,y-5),(x+w,y+h),(0,255,0),1)
             cv2.putText(original, str(i),(x-15,y+12),cv2.FONT_HERSHEY_SCRIPT_SIMPLEX,0.3,(0,0,0),1,cv2.LINE_AA)
+            cv2.imwrite("/home/saujanya/OCR/practice/final/layout.jpg",original)
             i=i+1
             extract=original[y:y+h , x:x+w]
             text=pytesseract.image_to_string(extract)
