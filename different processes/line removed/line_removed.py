@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 import pytesseract
 
-img=cv2.imread('/home/saujanya/OCR/practice/final/different processes/0.jpg')
+img=cv2.imread('/home/saujanya/OCR/practice/final/0.jpg')
 (h,w)=img.shape[:2]
 width=700
 r=h/w

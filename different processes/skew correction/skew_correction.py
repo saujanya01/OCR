@@ -2,7 +2,13 @@ import cv2
 import numpy as np
 import pytesseract
 
-img=cv2.imread('/home/saujanya/OCR/practice/final/different processes/0.jpg')
+img=cv2.imread('/home/saujanya/OCR/practice/final/1.jpg')
+(h,w) = img.shape[:2]
+width=700
+r=h/w
+dim=(width,int(width*r))
+resized=cv2.resize(img,dim,interpolation=cv2.INTER_AREA)
+img=resized
 gray=cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
 (T,thresh)=cv2.threshold(gray,200,255,cv2.THRESH_BINARY_INV)
 cv2.imshow('After thresholding',thresh)

@@ -11,8 +11,37 @@ from wand.image import Image as wi
 import cv2
 import numpy as np
 
+from tkinter import Tk, Button, filedialog, Label
+
+
+root = Tk()
+y = ""
+root.title("OCR_Project")
+
+def openfiledialog():
+    global y
+    y = filedialog.askopenfilename(initialdir = "/",title = "Select file",filetypes = (("pdf","*.pdf"),("all files","*.*")))
+
+def check_path():
+    global y
+    print (y)
+
+file_button = Button(root, text='Select File', command=openfiledialog)
+file_button.pack()
+
+exit_button = Button(root, text='Let it do the magic :pppp', command=root.destroy)
+exit_button.pack()
+w = Label(root, text="\nSelect the file path\n\n")
+w.pack()
+
+# Button(root, text="Print current saved path", command = check_path).pack()
+
+
+root.mainloop()
+path = y
+print(path)
 #User enters path of image
-path = str(input("Enter path of the PDF : \n"))
+# path = str(input("Enter path of the PDF : \n"))
 st=""
 #conversion of PDF to image in jpeg format
 pdf = wi(filename=path,resolution=200)
